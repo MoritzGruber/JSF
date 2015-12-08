@@ -1,0 +1,60 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+    template="/templates/jsfshop-template.xhtml">
+
+<ui:define name="title">Welcome to the JSF-Webshop!</ui:define>
+<ui:define name="header"><ui:include src="/snippets/header.xhtml"/></ui:define>
+<ui:define name="menu"><ui:include src="/snippets/google-search-box.xhtml"/></ui:define>
+
+<ui:define name="body">
+		<h:form>
+		<table><tr><td>
+			<c:if test="#{empty checkoutBean.cart.elements}">
+			Your cart is empty.
+			</c:if>
+			<c:if test="#{!empty checkoutBean.cart.elements}">
+				<h2>Your shopping cart:</h2>
+				<h:dataTable var="cartElement" value="#{checkoutBean.cart.elements}"
+					columnClasses="leftAlign, leftAlign, rightAlign, rightAlign">
+					<h:column>
+						<f:facet name="header">Qty</f:facet>
+						<h:inputText value="#{cartElement.numberOfArticles}"
+							required="true"
+							requiredMessage="Please supply a whole number for qty!"
+							converterMessage="Please supply a whole number for qty!"
+							validatorMessage="Please supply a number between 0 and 100 for qty!">
+							<f:validateLongRange minimum="0" maximum="100"/>
+						</h:inputText>		
+					</h:column>
+					<h:column>
+						<f:facet name="header">article name</f:facet>
+						#{cartElement.article.name}
+					</h:column>
+					<h:column>
+						<f:facet name="header">article price</f:facet>
+						#{cartElement.article.price}
+					</h:column>
+					<h:column>
+						<f:facet name="header">price for all</f:facet>
+						#{cartElement.article.price * cartElement.numberOfArticles}
+					</h:column>
+					<h:column>
+						<f:facet name="header">save</f:facet>
+						<h:commandButton value="update" action="#{cartBean.updateCart}">
+							<f:ajax execute="@form" render="@form"/>
+						</h:commandButton>
+					</h:column>
+				</h:dataTable>
+				Total: #{checkoutBean.cart.total} 
+				<br/><br/>
+				<h:messages styleClass="error"/>
+			</c:if>
+		</td></tr></table>
+	</h:form>
+</ui:define>
+
+<ui:define name="footer"><ui:include src="/snippets/footer.xhtml"/></ui:define>
+</ui:composition>

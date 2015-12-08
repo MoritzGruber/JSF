@@ -1,0 +1,25 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	template="/templates/jsfshop-template.xhtml">
+
+	<ui:define name="title">Welcome to the JSF-Webshop!</ui:define>
+	<ui:define name="header"><ui:include src="/snippets/header.xhtml" /></ui:define>
+	<ui:define name="menu"><ui:include src="/snippets/google-search-box.xhtml" /></ui:define>
+	
+	<ui:define name="body">			
+		<h:form>
+			<h1>Please Choose a Category!</h1>
+			<ui:repeat var="category" value="#{categoriesBean.categories}">
+				<h:commandLink action="#{categoriesBean.showArticlesForCategory}" 
+					value="#{category.nameWithArticles}">
+					<f:setPropertyActionListener 
+						target="#{showArticlesForCategoryBean.selectedCategoryName}"
+						value="#{category.name}" />
+				</h:commandLink><br/>
+			</ui:repeat>
+		</h:form>		
+	</ui:define>
+	<ui:define name="footer"><ui:include src="/snippets/footer.xhtml" /></ui:define>
+</ui:composition>

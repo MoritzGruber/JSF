@@ -1,0 +1,113 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"   
+	xmlns:ace="http://www.icefaces.org/icefaces/components"
+    xmlns:ice="http://www.icesoft.com/icefaces/component"
+    xmlns:icecore="http://www.icefaces.org/icefaces/core"
+    template="/templates/jsfshop-template.xhtml">
+
+<ui:define name="title">Welcome to the JSF-Webshop!</ui:define>
+<ui:define name="header"><ui:include src="/snippets/header.xhtml"/></ui:define>
+<ui:define name="menu"><ui:include src="/snippets/google-search-box.xhtml"/></ui:define>
+
+<ui:define name="body">
+	<h:form id="articleForm" enctype="multipart/form-data">
+	<table><tr><td>
+		<h2>Manage Articles</h2>
+		<h:commandButton value="new article" action="#{manageArticlesBean.newArticle}"/>
+		<h:commandButton value="save" action="#{manageArticlesBean.save}"/>
+
+		<h:messages errorClass="error" infoStyle="display:none" 
+			showDetail="false" showSummary="true"/> 
+
+		<h:dataTable var="article" value="#{manageArticlesBean.articles}"
+              id="articleTable">
+			<h:column>
+				<f:facet name="header">Id</f:facet>
+				<h:inputText id="articleNumber" value="#{article.number}" size="1" readonly="true"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Name</f:facet>
+				<h:inputText id="articleName" label="articleName" value="#{article.name}" size="10"
+					required="true" requiredMessage="Please supply an article name!" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Description</f:facet>
+				<h:inputTextarea id="articleDescription" value="#{article.description}" rows="3" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Image</f:facet>
+				<h:graphicImage value="#{article.imagePath}" 
+					width="50" height="40"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Imagepath</f:facet>
+				<h:outputText value="#{article.imagePath}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Price</f:facet>
+				<h:inputText  id="articlePrice" value="#{article.price}" size="4" />
+			</h:column>
+			<h:column>
+				<f:facet name="header">Deleted</f:facet>
+				<h:selectBooleanCheckbox  id="articleDeleted" value="#{article.deleted}"/>
+			</h:column>
+			<h:column>
+				<f:facet name="header">Category</f:facet>
+				<h:selectOneMenu id="articleCategories" value="#{article.categoryName}">
+					<f:selectItems value="#{manageCategoriesBean.categoriesAsStrings}"/>
+				</h:selectOneMenu>
+			</h:column>
+			<h:column>
+				<f:facet name="header"></f:facet>
+				<h:commandButton value="delete" 
+					action="#{manageArticlesBean.deleteArticle}" 
+						immediate="true">
+					<f:setPropertyActionListener 
+							target="#{manageArticlesBean.currentArticleNumber}"
+							value="#{article.number}" />
+				</h:commandButton>
+			</h:column>
+			<h:column>
+				<f:facet name="header"></f:facet>
+				<h:commandButton value="upload image" onclick="uploadDialog.show();"
+					disabled="#{empty article.name}">
+					<f:setPropertyActionListener 
+							target="#{manageArticlesBean.currentArticleNumber}"
+							value="#{article.number}" />
+				</h:commandButton>
+				<ace:dialog 
+					id="dialog"
+					header="Upload Article Image"
+					widgetVar="uploadDialog"
+					closable="true"
+					modal="true"
+					draggable="true"
+					showEffect="clip"
+					hideEffect="explode"
+					width="500">				
+					<ace:fileEntry 
+						id="fileEntry"  
+						relativePath="/images/"
+						maxFileCount="1" 
+						maxFileCountMessage="Limited to 1 file uploaded concurrently." 
+						fileEntryListener="#{manageArticlesBean.uploadListener}" 
+						maxFileSize="6291456" 
+						maxFileSizeMessage="Submitted file is too large." 
+						maxTotalSize="18874368" 
+						maxTotalSizeMessage="Total size of submitted files is too large." 
+						useOriginalFilename="true" 
+						useSessionSubdir="false"/>
+                	<h:commandButton value="upload" 
+                		onclick="uploadDialog.hide();"/>
+				</ace:dialog>
+			</h:column>
+		</h:dataTable>
+	</td></tr></table>
+	</h:form>
+</ui:define>
+
+<ui:define name="footer"><ui:include src="/snippets/footer.xhtml"/></ui:define>
+</ui:composition>

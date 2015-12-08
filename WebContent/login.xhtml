@@ -1,0 +1,42 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:head>
+		<title>JSF-Webshop Login</title>
+		<link href="./css/styles.css" rel="stylesheet" type="text/css"/> 
+	</h:head>
+	<h:body>
+		<div class="main">
+			<h:form>
+				<p/>
+				<table>
+					<tr><th class="title" colspan="2">JSF-Webshop Login</th></tr>
+					<tr>
+						<td>UserId</td>
+						<td><h:inputText id="userFieldId" value="#{loginBean.userId}"
+								required="true" requiredMessage="Please supply a userID!"
+								converterMessage="UserID must be a whole number!"/></td>
+						<td><h:message for="userFieldId" styleClass="error"/></td>
+					</tr>
+					<tr>
+						<td>Password</td>
+						<td><h:inputSecret id="passwordFieldId" value="#{loginBean.password}"
+								required="true" requiredMessage="Please supply a password!"/></td>
+						<td><h:message for="passwordFieldId" styleClass="error"/></td>
+					</tr>
+					<tr>
+						<td>&nbsp;</td>
+						<td>
+							<h:commandButton value="login" 
+								action="#{loginBean.doLogin}"/>
+						</td>
+					</tr>    
+					<tr>
+						<td colspan="2" class="error">#{loginBean.message}</td>
+					</tr>    
+				</table>		
+			</h:form>
+		</div>
+	</h:body>
+</html>

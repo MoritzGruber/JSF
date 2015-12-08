@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"	
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<h:form>
+		<table width="100%" class="dark">
+			<tr>
+				<th align="left">
+					<a href="shop.jsf" class="white">Home</a>
+					&#160; 
+					<a href="categories.jsf" class="white">Our Articles</a> 
+				</th>
+				<th align="right">
+					<a href="cart.jsf" class="white">My Cart</a>
+					&#160; 
+					<a href="checkout.jsf" class="white">Checkout</a>
+					&#160; 
+					<a href="shoppingHistory.jsf" class="white">Shopping History</a>
+					&#160;
+					<h:commandLink styleClass="white" action="#{loginBean.doLogout}">Logout</h:commandLink>
+				</th>
+			</tr>
+			<tr>
+				<th align="left">
+					<c:if test="#{loginBean.currentUser.admin}">
+						<a href="manageUsers.jsf" class="white">Manage Users</a>
+						&#160;
+						<a href="manageCategories.jsf" class="white">Manage Categories</a>
+						&#160;
+						<a href="manageArticles.jsf" class="white">Manage Articles</a>
+					</c:if>
+				</th>
+				<th align="right">
+					User: #{loginBean.currentUser.name} (#{loginBean.userId})
+				</th>
+			</tr>				
+		</table>
+	</h:form>
+</ui:composition>

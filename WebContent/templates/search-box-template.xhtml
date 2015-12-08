@@ -1,0 +1,30 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets">
+	<div align="center">
+	<table border="1">
+		<tr bgcolor="black">
+			<th><font color="white">Search Article</font></th>
+		</tr>
+		<tr>
+			<th>
+				<h:form>
+					<h:inputText value="#{articleSearchBean.searchString}"/><br />
+					<h:commandButton value="find!" action="#{articleSearchBean.search}"/>
+				</h:form>
+			</th>
+		</tr>
+	</table>
+	<p />
+	<table border="1">
+		<tr bgcolor="black">
+			<th><font color="white">Google Search</font></th>
+		</tr>
+		<tr>
+			<th><ui:insert name="search-form">
+				<h1>Missing search form</h1>
+			</ui:insert></th>
+		</tr>
+	</table>
+	</div>
+</ui:composition>
